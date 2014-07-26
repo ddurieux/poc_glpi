@@ -1,7 +1,6 @@
 #!flask/bin/python
 from flask import Flask, jsonify, abort, request, make_response, url_for
 import sys
-import importlib
 sys.path.append('objects')
 
 app = Flask(__name__, static_url_path = "")
