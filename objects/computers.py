@@ -4,6 +4,8 @@ __date__ ="$Jul 26, 2014 11:21:24 AM$"
 
 computers = [
     {
+    },
+    {
         'id': 1,
         'name': u'pc001',
         'serial': u'jth52745n'
@@ -17,3 +19,7 @@ computers = [
 
 def getall():
     return computers
+
+def getid(id):
+    return computers[id]
+

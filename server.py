@@ -19,6 +19,13 @@ def get_all(urlobject):
         i = __import__(urlobject)
         return jsonify( { 'computers': i.getall() } )
 
+@app.route('/api/v1.0/objects/<urlobject>/<int:id>', methods = ['GET'])
+def get_id(urlobject, id):
+    if (module_exists(urlobject)):
+        i = __import__(urlobject)
+        return jsonify( { 'computers': i.getid(id) } )
+
+
 def module_exists(module_name):
     try:
         __import__(module_name)
