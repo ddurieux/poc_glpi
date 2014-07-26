@@ -1,8 +1,8 @@
 #!flask/bin/python
 from flask import Flask, jsonify, abort, request, make_response, url_for
 import sys
+import importlib
 sys.path.append('objects')
-import computers
 
 app = Flask(__name__, static_url_path = "")
  
@@ -14,9 +14,19 @@ def not_found(error):
 def not_found(error):
     return make_response(jsonify( { 'error': 'Not found' } ), 404)
  
-@app.route('/api/v1.0/computers', methods = ['GET'])
-def get_all_computers():
-    return jsonify( { 'computers': computers.get_computers() } )
+@app.route('/api/v1.0/objects/<urlobject>', methods = ['GET'])
+def get_all(urlobject):
+    if (module_exists(urlobject)):
+        i = __import__(urlobject)
+        return jsonify( { 'computers': i.getall() } )
+
+def module_exists(module_name):
+    try:
+        __import__(module_name)
+    except ImportError:
+        return False
+    else:
+        return True
 
 if __name__ == '__main__':
     app.run(debug = True)

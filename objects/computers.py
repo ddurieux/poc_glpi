@@ -15,5 +15,5 @@ computers = [
     }
 ]
 
-def get_computers():
+def getall():
     return computers
