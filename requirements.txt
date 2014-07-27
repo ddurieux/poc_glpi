@@ -1,0 +1,2 @@
+# Python Eve - sqlachemy branch
+https://github.com/nicolaiarocci/eve.git@sqlalchemy#egg=eve
