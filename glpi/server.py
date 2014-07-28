@@ -2,6 +2,9 @@
 from flask import Flask, jsonify, abort, request, make_response, url_for
 import sys
 
+#import all modules in glpi.objects
+from glpi.objects import *
+
 app = Flask(__name__, static_url_path = "")
 
 @app.errorhandler(400)
@@ -14,9 +17,11 @@ def not_found(error):
 
 @app.route('/api/v1.0/objects/<urlobject>', methods = ['GET'])
 def get_all(urlobject):
-    if (module_exists(urlobject)):
-        i = __import__(urlobject)
-        return jsonify( { 'computers': i.getall() } )
+    modulename = 'glpi.objects.'+urlobject
+    if not modulename in sys.modules:
+        return make_response(jsonify( { 'error': 'Not found' } ), 404)
+    mymodule = sys.modules[modulename]
+    return jsonify( { urlobject: mymodule.getall() } )
 
 @app.route('/api/v1.0/objects/<urlobject>/<int:id>', methods = ['GET'])
 def get_id(urlobject, id):
