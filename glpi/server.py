@@ -16,14 +16,16 @@ def not_found(error):
     return make_response(jsonify( { 'error': 'Not found' } ), 404)
 
 @app.route('/api/v1.0/objects/<urlobject>', methods = ['GET'])
-def get_all(urlobject):
+@app.route('/api/v1.0/objects/<urlobject>/index', methods = ['GET'])
+@app.route('/api/v1.0/objects/<urlobject>/index/<pagenum>', methods = ['GET'])
+def get_all(urlobject, pagenum = 0):
     modulename = 'glpi.objects.'+urlobject
     if not modulename in sys.modules:
         return make_response(jsonify( { 'error': 'Not found' } ), 404)
     mymodule = sys.modules[modulename]
     return jsonify( { urlobject: mymodule.getall() } )
 
-@app.route('/api/v1.0/objects/<urlobject>/<int:id>', methods = ['GET'])
+@app.route('/api/v1.0/objects/<urlobject>/id/<int:id>', methods = ['GET'])
 def get_id(urlobject, id):
     if (module_exists(urlobject)):
         i = __import__(urlobject)
