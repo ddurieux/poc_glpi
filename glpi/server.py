@@ -17,8 +17,8 @@ def not_found(error):
 
 @app.route('/api/v1.0/objects/<urlobject>', methods = ['GET'])
 @app.route('/api/v1.0/objects/<urlobject>/index', methods = ['GET'])
-@app.route('/api/v1.0/objects/<urlobject>/index/<pagenum>', methods = ['GET'])
-def get_all(urlobject, pagenum = 0):
+@app.route('/api/v1.0/objects/<urlobject>/index/<int:pagenum>', methods = ['GET'])
+def get_all(urlobject, pagenum = 1):
     modulename = 'glpi.objects.'+urlobject
     if not modulename in sys.modules:
         return make_response(jsonify( { 'error': 'Not found' } ), 404)
