@@ -23,14 +23,15 @@ def get_all(urlobject, pagenum = 0):
     if not modulename in sys.modules:
         return make_response(jsonify( { 'error': 'Not found' } ), 404)
     mymodule = sys.modules[modulename]
-    return jsonify( { urlobject: mymodule.getall() } )
+    return jsonify( { urlobject: mymodule.getall(pagenum) } )
 
 @app.route('/api/v1.0/objects/<urlobject>/id/<int:id>', methods = ['GET'])
 def get_id(urlobject, id):
-    if (module_exists(urlobject)):
-        i = __import__(urlobject)
-        return jsonify( { 'computers': i.getid(id) } )
-
+    modulename = 'glpi.objects.'+urlobject
+    if not modulename in sys.modules:
+        return make_response(jsonify( { 'error': 'Not found' } ), 404)
+    mymodule = sys.modules[modulename]
+    return jsonify( { urlobject: mymodule.getid(id) } )
 
 def module_exists(module_name):
     try:
