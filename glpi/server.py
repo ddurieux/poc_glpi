@@ -63,9 +63,15 @@ def not_found(error):
 def not_found(error):
     return make_response(jsonify( { 'error': 'Not found' } ), 404)
 
+@app.route('/api/v1.0/objects', methods = ['GET'])
+@app.route('/api/v1.0/objects/index', methods = ['GET'])
+@crossdomain(origin='*')
+def get_all_objets():
+    return jsonify(  )
+
 @app.route('/api/v1.0/objects/<urlobject>', methods = ['GET'])
 @app.route('/api/v1.0/objects/<urlobject>/index', methods = ['GET'])
-#@app.route('/api/v1.0/objects/<urlobject>/index/<int:pagenum>', methods = ['GET'])
+@app.route('/api/v1.0/objects/<urlobject>/index/<int:pagenum>', methods = ['GET'])
 @crossdomain(origin='*')
 def get_all(urlobject, pagenum = 1):
     modulename = 'glpi.objects.'+urlobject
