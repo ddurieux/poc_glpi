@@ -35,5 +35,6 @@ class Computer(db.Model):
     states_id = db.Column(db.Integer)
     ticket_tco = db.Column(db.Float)
     uuid = db.Column(db.String(255, None, True))
+    notepad = db.Column(db.Text(None, None, True))
 
     

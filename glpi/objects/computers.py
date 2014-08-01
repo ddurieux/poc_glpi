@@ -6,17 +6,28 @@ from glpi import db
 from glpi.database import *
 
 def getall(pagenum):
+    numperpage = 100000
     # test pagination 2 per pages
     num_rows = glpi_computers.Computer.query.count()
     list = {
         'num_results': num_rows,
-        'total_pages': ceil(num_rows/2),
+        'total_pages': ceil(num_rows/numperpage),
         'page': pagenum
     }
-    result = glpi_computers.Computer.query.slice(((pagenum-1)*2),(pagenum*2))
+    cols = ['id', 'name', 'comment', 'serial', 'date_mod']
+#    result = glpi_computers.Computer.query.add_columns('id', 'name', 'comment', 'serial', 'date_mod').slice(((pagenum-1)*numperpage),(pagenum*numperpage))
+    result = glpi_computers.Computer.query.with_entities(glpi_computers.Computer.id, glpi_computers.Computer.name, glpi_computers.Computer.comment, glpi_computers.Computer.serial, glpi_computers.Computer.date_mod).all()
     rows = []
-    for row in result:
-        rows.append(row2dict(row))
+    if 'id' in cols:
+        for d in result:
+            row = {}
+            for col in cols:
+                row[col] = getattr(d, col)
+            rows.append(row)
+    else:
+        for row in result:
+            rows.append(row2dict(row))
+#    rows = [d.__dict__ for d in result]
     list['objects'] = rows
     return list
 
@@ -28,5 +39,5 @@ def getid(id):
 def row2dict(row):
     d = {}
     for column in row.__table__.columns:
-        d[column.name] = str(getattr(row, column.name))
+            d[column.name] = str(getattr(row, column.name))
     return d
