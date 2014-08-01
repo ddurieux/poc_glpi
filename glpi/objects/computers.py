@@ -14,26 +14,7 @@ def getall(pagenum):
         'total_pages': ceil(num_rows/numperpage),
         'page': pagenum
     }
-    cols = ['id', 'name', 'comment', 'serial', 'date_mod']
-#    result = glpi_computers.Computer.query.add_columns('id', 'name', 'comment', 'serial', 'date_mod').slice(((pagenum-1)*numperpage),(pagenum*numperpage)).all()
-    result = glpi_computers.Computer.query.with_entities(glpi_computers.Computer.id, glpi_computers.Computer.name, glpi_computers.Computer.comment, glpi_computers.Computer.serial, glpi_computers.Computer.date_mod).slice(((pagenum-1)*numperpage),(pagenum*numperpage)).all()
-    rows = []
-    if 'id' in cols:
-#        for d in result:
-#            row = {}
-#            for col in cols:
-#                row[col] = getattr(d, col)
-#            rows.append(row)
-
-#        for d in result:
-#            rows.append(d)
-
-        rows = result
-    else:
-        for row in result:
-            rows.append(row2dict(row))
-#    rows = [d.__dict__ for d in result]
-    list['objects'] = rows
+    list['objects'] = glpi_computers.Computer.query.with_entities(glpi_computers.Computer.id, glpi_computers.Computer.name, glpi_computers.Computer.comment, glpi_computers.Computer.serial, glpi_computers.Computer.date_mod).slice(((pagenum-1)*numperpage),(pagenum*numperpage)).all()
     return list
 
 def getid(id):
