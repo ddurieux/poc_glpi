@@ -19,11 +19,16 @@ def getall(pagenum):
     result = glpi_computers.Computer.query.with_entities(glpi_computers.Computer.id, glpi_computers.Computer.name, glpi_computers.Computer.comment, glpi_computers.Computer.serial, glpi_computers.Computer.date_mod).all()
     rows = []
     if 'id' in cols:
-        for d in result:
-            row = {}
-            for col in cols:
-                row[col] = getattr(d, col)
-            rows.append(row)
+#        for d in result:
+#            row = {}
+#            for col in cols:
+#                row[col] = getattr(d, col)
+#            rows.append(row)
+
+#        for d in result:
+#            rows.append(d)
+
+        rows = result
     else:
         for row in result:
             rows.append(row2dict(row))
