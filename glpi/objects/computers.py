@@ -8,7 +8,8 @@ from glpi.database import *
 def getall(pagenum):
     numperpage = 100000
     # test pagination 2 per pages
-    num_rows = glpi_computers.Computer.query.count()
+    #num_rows = glpi_computers.Computer.query.count()
+    num_rows = 0
     list = {
         'num_results': num_rows,
         'total_pages': ceil(num_rows/numperpage),
