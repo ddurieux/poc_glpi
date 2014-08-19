@@ -19,9 +19,7 @@ def getall(pagenum):
     return list
 
 def getid(id):
-    if not id in computers:
-        return { 'error': 'Not found' }
-    return computers[id]
+    return row2dict(glpi_computers.Computer.query.get(id))
 
 def row2dict(row):
     d = {}
